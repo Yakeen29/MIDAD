@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مِداد | دراسات الجدوى وربط المستثمرين</title>
+
+<!--  المكتبات الخارجية (CDN)  -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://unpkg.com/lucide@0.383.0/dist/umd/lucide.min.js"></script>
+
+<script>
+  /*  إعدادات Tailwind: الهوية البصرية  */
+  tailwind.config = {
+    theme: { extend: {
+      fontFamily: { cairo: ['Cairo', 'sans-serif'] },
+      colors: {
+        cobalt: '#1D4ED8',   // الأساسي
+        azure:  '#60A5FA',   // الثانوي
+        ice:    '#F1F5F9',   // خلفية الصفحة
+        powder: '#DBEAFE',   // حدود ناعمة
+        navy:   '#0F172A'    // النصوص الداكنة
+      }
+    } }
+  };
+</script>
+
+<style>
+  body { font-family: 'Cairo', sans-serif; background: #F1F5F9; color: #0F172A; }
+  .card { background: #fff; border: 1px solid #DBEAFE; border-radius: 1rem; }
+  .field { width: 100%; border: 1px solid #DBEAFE; background: #fff; border-radius: .75rem; padding: .6rem .9rem; outline: none; }
+  .field:focus { border-color: #1D4ED8; box-shadow: 0 0 0 3px rgba(96,165,250,.35); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; font-weight: 700; border-radius: .75rem; padding: .7rem 1.4rem; transition: .15s; }
+  .btn-primary { background: #1D4ED8; color: #fff; }
+  .btn-primary:hover { background: #1e40af; }
+  .btn-ghost { background: #fff; color: #1D4ED8; border: 1px solid #60A5FA; }
+  .btn-ghost:hover { background: #DBEAFE; }
+  .nav-link { padding: .45rem .9rem; border-radius: .6rem; font-weight: 600; white-space: nowrap; color: #0F172A; }
+  .nav-link.active { background: #DBEAFE; color: #1D4ED8; }
+  .view { display: none; }
+  .view.active { display: block; }
+  .chip { padding: .35rem .9rem; border-radius: 999px; border: 1px solid #DBEAFE; background: #fff; font-weight: 600; font-size: .85rem; }
+  .chip.active { background: #1D4ED8; color: #fff; border-color: #1D4ED8; }
+  .hero-bg { background: #1D4ED8; background-image: linear-gradient(135deg, #1D4ED8 0%, #1e3a8a 100%); }
+  :focus-visible { outline: 2px solid #1D4ED8; outline-offset: 2px; }
+</style>
+</head>
+
+<body class="font-cairo">
+
+<!--  الترويسة وشريط التنقل  -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-powder">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+    <button onclick="go('landing')" class="flex items-center gap-2 font-black text-xl text-cobalt">
+      <span class="w-9 h-9 rounded-lg bg-cobalt text-white grid place-items-center"><i data-lucide="pen-tool" class="w-5 h-5"></i></span>
+      مِداد
+    </button>
+    <nav class="flex gap-1 overflow-x-auto">
+      <button class="nav-link" data-nav="landing" onclick="go('landing')">الرئيسية</button>
+      <button class="nav-link" data-nav="dashboard" onclick="go('dashboard')">لوحة رائد الأعمال</button>
+      <button class="nav-link" data-nav="investors" onclick="go('investors')">بوابة المستثمرين</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!--  1) صفحة الهبوط  -->
+<section id="view-landing" class="view">
+  <!-- القسم الرئيسي Hero -->
+  <div class="hero-bg relative overflow-hidden text-white">
+  
+    <!-- خلفية: أعمدة صاعدة + منحنى نمو + برعم  -->
+    <svg class="absolute inset-0 w-full h-full" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <g fill="#60A5FA" opacity=".14">
+        <rect x="560" y="440" width="36" height="60" rx="6"/><rect x="620" y="405" width="36" height="95" rx="6"/>
+        <rect x="680" y="370" width="36" height="130" rx="6"/><rect x="740" y="330" width="36" height="170" rx="6"/>
+        <rect x="800" y="285" width="36" height="215" rx="6"/><rect x="860" y="235" width="36" height="265" rx="6"/>
+        <rect x="920" y="180" width="36" height="320" rx="6"/><rect x="980" y="120" width="36" height="380" rx="6"/>
+      </g>
+      <path d="M0,430 C200,420 350,380 520,330 S800,220 1000,130 S1150,70 1190,45" fill="none" stroke="#60A5FA" stroke-width="3" stroke-linecap="round" opacity=".35"/>
+      <polygon points="1170,38 1196,40 1184,62" fill="#60A5FA" opacity=".35"/>
+      <g fill="#60A5FA" opacity=".35"><circle cx="520" cy="330" r="6"/><circle cx="800" cy="228" r="6"/><circle cx="1000" cy="130" r="6"/></g>
+      <g opacity=".22" fill="#60A5FA" stroke="#60A5FA">
+        <path d="M120,500 C120,450 120,420 125,380" fill="none" stroke-width="4" stroke-linecap="round"/>
+        <path d="M125,400 C95,395 80,370 78,350 C105,352 125,372 125,400 Z" stroke="none"/>
+        <path d="M125,385 C150,380 165,355 168,335 C140,338 125,358 125,385 Z" stroke="none"/>
+      </g>
+    </svg>
+    <div class="relative max-w-6xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <h1 class="text-4xl md:text-5xl font-black leading-tight">من فكرتك إلى تمويلها،<br>بأرقام يثق بها المستثمر</h1>
+        <p class="mt-5 text-blue-100 text-lg leading-relaxed max-w-lg">أدخل بيانات مشروعك واحصل خلال ثوانٍ على دراسة جدوى مالية واضحة: صافي الربح، فترة الاسترداد، ونقطة التعادل. ثم انشرها أمام المستثمرين.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <button class="btn bg-white text-cobalt hover:bg-powder" onclick="go('dashboard')">ابدأ دراسة الجدوى</button>
+          <button class="btn border border-azure text-white hover:bg-white/10" onclick="go('investors')">تصفح الفرص الاستثمارية</button>
+        </div>
+      </div>
+
+
+      <!-- معاينة مصغرة للنتائج -->
+      <div class="bg-white text-navy rounded-2xl p-5 shadow-xl border border-powder">
+        <p class="font-bold mb-3">مثال: مقهى متخصص</p>
+        <div class="grid grid-cols-3 gap-3 text-center">
+          <div class="bg-ice rounded-xl p-3"><p class="text-xs text-slate-500">ربح شهري</p><p class="font-black text-cobalt">$3,200</p></div>
+          <div class="bg-ice rounded-xl p-3"><p class="text-xs text-slate-500">الاسترداد</p><p class="font-black text-cobalt">16 شهراً</p></div>
+          <div class="bg-ice rounded-xl p-3"><p class="text-xs text-slate-500">العائد</p><p class="font-black text-cobalt">75%</p></div>
+        </div>
+        <p class="text-xs text-slate-500 mt-4">التدفق النقدي التراكمي المتوقع خلال 24 شهراً</p>
+        <svg viewBox="0 0 300 135" class="w-full mt-1" role="img" aria-label="رسم توضيحي للتدفق النقدي التراكمي ونقطة التعادل">
+        
+        
+            <!-- منحنى التدفق النقدي: يبدأ سالباً (رأس المال) ثم يتحسن تدريجياً مع نمو المبيعات -->
+          <defs><linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#60A5FA" stop-opacity=".35"/><stop offset="1" stop-color="#60A5FA" stop-opacity="0"/></linearGradient></defs>
+          <path d="M10,110 C35,114 60,106 90,96 S150,70 197,43 S260,18 290,10 L290,115 L10,115 Z" fill="url(#hg)"/>
+          <line x1="10" y1="43" x2="290" y2="43" stroke="#94A3B8" stroke-dasharray="4 4"/>
+          <path d="M10,110 C35,114 60,106 90,96 S150,70 197,43 S260,18 290,10" fill="none" stroke="#1D4ED8" stroke-width="3" stroke-linecap="round"/>
+          <!-- نقطة التعادل -->
+          <line x1="197" y1="43" x2="197" y2="115" stroke="#0F172A" stroke-dasharray="2 3" opacity=".4"/>
+          <circle cx="197" cy="43" r="5" fill="#fff" stroke="#0F172A" stroke-width="2.5"/>
+          <text x="197" y="31" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A" font-family="Cairo">التعادل: الشهر 16</text>
+          <text x="12" y="38" font-size="8" fill="#64748B" font-family="Cairo">0$</text>
+          <text x="10" y="128" font-size="8" fill="#64748B" font-family="Cairo">0</text>
+          <text x="150" y="128" font-size="8" fill="#64748B" font-family="Cairo" text-anchor="middle">12</text>
+          <text x="290" y="128" font-size="8" fill="#64748B" font-family="Cairo" text-anchor="end">24 شهراً</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- كيف تعمل المنصة -->
+  <div class="max-w-6xl mx-auto px-4 py-16">
+    <h2 class="text-2xl md:text-3xl font-black text-center">كيف تعمل المنصة؟</h2>
+    <div class="mt-10 grid md:grid-cols-3 gap-5">
+      <div class="card p-6"><div class="w-12 h-12 rounded-xl bg-powder text-cobalt grid place-items-center"><i data-lucide="clipboard-list"></i></div><h3 class="mt-4 font-bold text-lg">1. أدخل بيانات مشروعك</h3><p class="mt-2 text-slate-600 text-sm leading-relaxed">رأس المال، التكاليف الشهرية، والإيرادات المتوقعة.</p></div>
+      <div class="card p-6"><div class="w-12 h-12 rounded-xl bg-powder text-cobalt grid place-items-center"><i data-lucide="line-chart"></i></div><h3 class="mt-4 font-bold text-lg">2. احصل على التحليل</h3><p class="mt-2 text-slate-600 text-sm leading-relaxed">مؤشرات مالية فورية ورسم للتدفقات النقدية ونقطة التعادل.</p></div>
+      <div class="card p-6"><div class="w-12 h-12 rounded-xl bg-powder text-cobalt grid place-items-center"><i data-lucide="handshake"></i></div><h3 class="mt-4 font-bold text-lg">3. انشر وتواصل</h3><p class="mt-2 text-slate-600 text-sm leading-relaxed">اعرض دراستك للمستثمرين واستقبل طلبات الشراكة.</p></div>
+    </div>
+  </div>
+
+  <!-- إحصائيات المنصة -->
+  <div class="max-w-6xl mx-auto px-4 pb-16">
+    <div class="card p-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div><p class="text-3xl font-black text-cobalt">+150</p><p class="text-sm text-slate-600">دراسة منجزة</p></div>
+      <div><p class="text-3xl font-black text-cobalt">$2.4M</p><p class="text-sm text-slate-600">استثمارات متاحة</p></div>
+      <div><p class="text-3xl font-black text-cobalt">+60</p><p class="text-sm text-slate-600">مستثمر نشط</p></div>
+      <div><p class="text-3xl font-black text-cobalt">12 شهراً</p><p class="text-sm text-slate-600">أفق التحليل المالي</p></div>
+    </div>
+  </div>
+</section>
+
+<!--  2) لوحة رائد الأعمال  -->
+<section id="view-dashboard" class="view">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <h2 class="text-2xl font-black">حاسبة دراسة الجدوى</h2>
+    <p class="text-slate-600 mt-1">عدّل الأرقام وستتحدث النتائج والرسم البياني تلقائياً بعد أول تحليل.</p>
+
+    <div class="mt-6 grid lg:grid-cols-3 gap-6">
+      <!-- نموذج الإدخال -->
+      <div class="card p-6 lg:col-span-1 h-fit">
+        <h3 class="font-bold mb-4">بيانات المشروع</h3>
+        <div class="space-y-4">
+          <div><label class="text-sm font-semibold" for="f-name">اسم المشروع (بالعربية)</label><input id="f-name" class="field mt-1" value="مقهى بنّ المدينة"></div>
+          <div><label class="text-sm font-semibold" for="f-name-en">Project name (English)</label><input id="f-name-en" dir="ltr" class="field mt-1 text-left" value="City Bunn Café"></div>
+          <div><label class="text-sm font-semibold" for="f-sector">القطاع</label>
+            <select id="f-sector" class="field mt-1"></select></div>
+          <div><label class="text-sm font-semibold" for="f-capital">رأس المال التأسيسي ($)</label><input id="f-capital" type="number" min="0" class="field mt-1 calc-in" value="60000"></div>
+          <div><label class="text-sm font-semibold" for="f-opex">التكاليف التشغيلية الشهرية ($)</label><input id="f-opex" type="number" min="0" class="field mt-1 calc-in" value="9000"></div>
+          <div><label class="text-sm font-semibold" for="f-rev">الإيرادات الشهرية المتوقعة ($)</label><input id="f-rev" type="number" min="0" class="field mt-1 calc-in" value="12800"></div>
+          <p id="f-error" class="text-sm text-red-600 hidden">أدخل أرقاماً صحيحة: رأس المال أكبر من صفر والقيم غير سالبة.</p>
+          <button class="btn btn-primary w-full" onclick="analyze()"><i data-lucide="calculator" class="w-5 h-5"></i> تحليل الدراسة</button>
+        </div>
+      </div>
+
+      <!-- النتائج -->
+      <div class="lg:col-span-2 space-y-6">
+        <div id="empty-state" class="card p-10 text-center text-slate-500">
+          <i data-lucide="bar-chart-3" class="w-10 h-10 mx-auto text-azure"></i>
+          <p class="mt-3 font-semibold">اضغط «تحليل الدراسة» لعرض المؤشرات المالية.</p>
+        </div>
+
+        <div id="results" class="hidden space-y-6">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="card p-4"><p class="text-xs text-slate-500">صافي الربح الشهري</p><p id="k-month" class="text-xl font-black mt-1"></p></div>
+            <div class="card p-4"><p class="text-xs text-slate-500">صافي الربح السنوي</p><p id="k-year" class="text-xl font-black mt-1"></p></div>
+            <div class="card p-4"><p class="text-xs text-slate-500">فترة الاسترداد</p><p id="k-payback" class="text-xl font-black mt-1"></p></div>
+            <div class="card p-4"><p class="text-xs text-slate-500">العائد على الاستثمار</p><p id="k-roi" class="text-xl font-black mt-1"></p></div>
+          </div>
+
+          <!-- التقييم الذكي -->
+          <div id="rating" class="card p-4 flex items-center gap-3">
+            <span id="rating-badge" class="px-3 py-1 rounded-full text-sm font-bold"></span>
+            <p id="rating-text" class="text-sm text-slate-700"></p>
+          </div>
+
+          <!-- الرسم البياني -->
+          <div class="card p-5">
+            <h3 class="font-bold">التدفق النقدي التراكمي خلال 12 شهراً</h3>
+            <p id="breakeven-note" class="text-sm text-slate-600 mt-1"></p>
+            <div class="relative h-72 mt-3"><canvas id="cashChart"></canvas></div>
+          </div>
+
+          <button class="btn btn-primary" onclick="publish()"><i data-lucide="send" class="w-5 h-5"></i> نشر الدراسة للمستثمرين</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3) بوابة المستثمرين  -->
+<section id="view-investors" class="view">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <h2 class="text-2xl font-black">سوق الفرص الاستثمارية</h2>
+    <p class="text-slate-600 mt-1">مشاريع بدراسات جدوى مالية جاهزة للمراجعة.</p>
+    <div id="chips" class="flex flex-wrap gap-2 mt-5"></div>
+    <div id="grid" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </div>
+</section>
+
+</main>
+
+<!-- التذييل (Footer)  -->
+<footer class="bg-navy text-blue-100 mt-10">
+  <div class="max-w-6xl mx-auto px-4 py-12 grid md:grid-cols-3 gap-10">
+    <div class="md:col-span-1">
+      <div class="flex items-center gap-2 font-black text-xl text-white">
+        <span class="w-9 h-9 rounded-lg bg-cobalt grid place-items-center"><i data-lucide="pen-tool" class="w-5 h-5"></i></span>
+        مِداد <span dir="ltr" class="text-azure text-base font-semibold">MIDAD</span>
+      </div>
+      <p class="mt-4 text-sm leading-7 text-blue-200">
+        منصة إلكترونية متخصصة في إعداد دراسات الجدوى الاقتصادية والمالية، تساعد أصحاب الأفكار على تقييم مشاريعهم من حيث التكاليف والإيرادات والأرباح المتوقعة وفرص النجاح. كما تتيح لهم نشر دراسات جدواهم للوصول إلى المستثمرين الباحثين عن فرص مدروسة، فتسهّل التواصل بين الطرفين وتفتح المجال للشراكة والتمويل، وتحوّل الأفكار إلى مشاريع قابلة للتنفيذ.
+      </p>
+    </div>
+    <div>
+      <h4 class="font-bold text-white">روابط سريعة</h4>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li><button class="hover:text-white" onclick="go('landing')">الرئيسية</button></li>
+        <li><button class="hover:text-white" onclick="go('dashboard')">ابدأ دراسة الجدوى</button></li>
+        <li><button class="hover:text-white" onclick="go('investors')">الفرص الاستثمارية</button></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-bold text-white">تواصل معنا</h4>
+      <ul class="mt-4 space-y-3 text-sm">
+        <li class="flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4 text-azure"></i><span dir="ltr">info@midad.example</span></li>
+        <li class="flex items-center gap-2"><i data-lucide="phone" class="w-4 h-4 text-azure"></i><span dir="ltr">+218 91 000 0000</span></li>
+        <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-azure"></i>طرابلس، ليبيا</li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10 py-4 text-center text-xs text-blue-300">© 2026 مِداد (MIDAD) — جميع الحقوق محفوظة | نموذج أولي للعرض</div>
+</footer>
+
+<!-- نافذة طلب التواصل / الاستثمار  -->
+<div id="modal" class="hidden fixed inset-0 z-50 bg-navy/60 p-4 grid place-items-center" onclick="if(event.target===this) closeModal()">
+  <div class="card w-full max-w-md p-6">
+    <div id="modal-form">
+      <h3 class="font-black text-lg">طلب تواصل / استثمار</h3>
+      <p id="modal-project" class="text-sm text-slate-600 mt-1"></p>
+      <form class="mt-4 space-y-3" onsubmit="sendRequest(event)">
+        <input id="m-name" class="field" placeholder="الاسم الكامل" required>
+        <input id="m-email" type="email" class="field" placeholder="البريد الإلكتروني" required>
+        <input id="m-amount" type="number" min="1" class="field" placeholder="مبلغ الاستثمار المقترح ($)" required>
+        <textarea id="m-msg" rows="3" class="field" placeholder="رسالتك لصاحب المشروع"></textarea>
+        <div class="flex gap-2">
+          <button type="submit" class="btn btn-primary flex-1">إرسال الطلب</button>
+          <button type="button" class="btn btn-ghost" onclick="closeModal()">إلغاء</button>
+        </div>
+      </form>
+    </div>
+    <div id="modal-done" class="hidden text-center py-4">
+      <div class="w-14 h-14 mx-auto rounded-full bg-powder text-cobalt grid place-items-center"><i data-lucide="check" class="w-7 h-7"></i></div>
+      <h3 class="font-black text-lg mt-3">تم إرسال طلبك</h3>
+      <p id="done-text" class="text-sm text-slate-600 mt-1"></p>
+      <button class="btn btn-primary mt-4" onclick="closeModal()">حسناً</button>
+    </div>
+  </div>
+</div>
+
+<!-- رسالة النجاح  -->
+<div id="toast" class="hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-navy text-white px-5 py-3 rounded-xl shadow-lg text-sm font-semibold"></div>
+
+<script>
+/* البيانات الافتراضية التخيلية */
+   
+const SECTORS = ['تقنية', 'أغذية ومشروبات', 'تجارة إلكترونية', 'صحة', 'تعليم', 'طاقة'];
+
+const projects = [
+  { id: 1, name: 'تطبيق توصيل صيدلانية', nameEn: 'PharmaGo Delivery', sector: 'صحة',            capital: 120000, opex: 14000, revenue: 24500, user: false,
+    desc: 'منصة توصيل أدوية ومستلزمات صحية خلال ساعتين داخل المدن الكبرى.' },
+  { id: 2, name: 'مصنع ألواح شمسية صغير', nameEn: 'SolarWorks Mini Plant', sector: 'طاقة',          capital: 250000, opex: 28000, revenue: 41000, user: false,
+    desc: 'تجميع وتركيب ألواح شمسية للمنازل والمزارع بطاقة 500 وحدة شهرياً.' },
+  { id: 3, name: 'أكاديمية برمجة للأطفال', nameEn: 'Kids Code Academy', sector: 'تعليم',        capital: 45000,  opex: 7500,  revenue: 13200, user: false,
+    desc: 'مسارات تعلم برمجة وروبوتات للأعمار 8–15 سنة بنظام اشتراك شهري.' }
+];
+
+let activeFilter = 'الكل';   // الفلتر الحالي
+let analyzed = false;        // هل تم تحليل الدراسة مرة واحدة على الأقل؟
+let chart = null;            // كائن Chart.js
+let lastStudy = null;        // آخر دراسة محسوبة
+let modalProject = null;     // المشروع المفتوح في النافذة
+
+/* =====================================================================
+   أدوات مساعدة
+   ===================================================================== */
+const $ = id => document.getElementById(id);
+const money = n => '$' + Math.round(n).toLocaleString('en-US');
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const icons = () => { if (window.lucide) lucide.createIcons(); };
+
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg; t.classList.remove('hidden');
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => t.classList.add('hidden'), 3200);
+}
+
+/* =====================================================================
+   التنقل بين الأقسام
+   ===================================================================== */
+function go(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + name));
+  document.querySelectorAll('[data-nav]').forEach(b => b.classList.toggle('active', b.dataset.nav === name));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (name === 'investors') renderProjects();
+  if (name === 'dashboard' && analyzed) drawChart();   // إعادة رسم الرسم عند العودة للوحة
+  icons();
+}
+
+/* =====================================================================
+   حاسبة دراسة الجدوى
+   ===================================================================== */
+function compute() {
+  const capital = parseFloat($('f-capital').value);
+  const opex = parseFloat($('f-opex').value);
+  const revenue = parseFloat($('f-rev').value);
+  if ([capital, opex, revenue].some(isNaN) || capital <= 0 || opex < 0 || revenue < 0) return null;
+
+  const monthly = revenue - opex;                          // صافي الربح الشهري
+  const yearly = monthly * 12;                             // صافي الربح السنوي
+  const payback = monthly > 0 ? capital / monthly : null;  // فترة الاسترداد بالأشهر
+  const roi = (yearly / capital) * 100;                    // العائد على الاستثمار %
+
+  // معايير التقييم
+  let level = 'bad';
+  if (monthly > 0 && roi >= 50 && payback <= 24) level = 'great';
+  else if (monthly > 0 && roi >= 20 && payback <= 48) level = 'good';
+
+  return {
+    name: $('f-name').value.trim() || 'مشروع بدون اسم',
+    nameEn: $('f-name-en').value.trim(),
+    sector: $('f-sector').value, capital, opex, revenue, monthly, yearly, payback, roi, level
+  };
+}
+
+function analyze() {
+  const s = compute();
+  $('f-error').classList.toggle('hidden', !!s);
+  if (!s) return;
+  analyzed = true; lastStudy = s;
+  $('empty-state').classList.add('hidden');
+  $('results').classList.remove('hidden');
+
+  $('k-month').textContent = money(s.monthly);
+  $('k-month').className = 'text-xl font-black mt-1 ' + (s.monthly >= 0 ? 'text-cobalt' : 'text-red-600');
+  $('k-year').textContent = money(s.yearly);
+  $('k-payback').textContent = s.payback ? s.payback.toFixed(1) + ' شهراً' : 'غير متاح';
+  $('k-roi').textContent = s.roi.toFixed(1) + '%';
+
+  const R = {
+    great: ['ممتاز', 'bg-green-100 text-green-700', 'عائد مرتفع واسترداد سريع لرأس المال. مشروع جذاب للمستثمرين.'],
+    good:  ['جيد', 'bg-powder text-cobalt', 'أرقام مقبولة. يمكن تحسين الإيرادات أو خفض التكاليف لرفع الجاذبية.'],
+    bad:   ['يحتاج مراجعة', 'bg-red-100 text-red-700', 'الربحية ضعيفة أو سالبة. راجع التكاليف والتسعير قبل النشر.']
+  }[s.level];
+  $('rating-badge').textContent = R[0];
+  $('rating-badge').className = 'px-3 py-1 rounded-full text-sm font-bold ' + R[1];
+  $('rating-text').textContent = R[2];
+
+  drawChart();
+}
+
+function drawChart() {
+  const s = lastStudy; if (!s) return;
+  const labels = [], data = [];
+  for (let m = 0; m <= 12; m++) { labels.push(m === 0 ? 'البداية' : 'شهر ' + m); data.push(-s.capital + s.monthly * m); }
+
+  // نقطة التعادل (إن وقعت ضمن 12 شهراً)
+  const be = s.payback && s.payback <= 12 ? s.payback : null;
+  $('breakeven-note').textContent = be
+    ? 'نقطة التعادل تقريباً في الشهر ' + Math.ceil(be) + '.'
+    : 'لا يتحقق التعادل خلال 12 شهراً' + (s.payback ? '، ويُتوقع بعد نحو ' + Math.ceil(s.payback) + ' شهراً.' : ' بسبب صافي الربح غير الموجب.');
+
+  const beIndex = be ? Math.ceil(be) : -1;
+  const cfg = {
+    type: 'line',
+    data: { labels, datasets: [
+      { label: 'التدفق النقدي التراكمي ($)', data, borderColor: '#1D4ED8', backgroundColor: 'rgba(96,165,250,.15)', fill: true, tension: .25, borderWidth: 3,
+        pointRadius: data.map((_, i) => i === beIndex ? 7 : 3), pointBackgroundColor: data.map((_, i) => i === beIndex ? '#0F172A' : '#1D4ED8') },
+      { label: 'خط التعادل', data: labels.map(() => 0), borderColor: '#60A5FA', borderDash: [6, 5], pointRadius: 0, borderWidth: 2 }
+    ] },
+    options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { labels: { font: { family: 'Cairo' } } },
+                 tooltip: { rtl: true, bodyFont: { family: 'Cairo' }, callbacks: { label: c => ' ' + c.dataset.label + ': ' + money(c.parsed.y) } } },
+      scales: { x: { ticks: { font: { family: 'Cairo' } } }, y: { ticks: { callback: v => money(v), font: { family: 'Cairo' } } } } }
+  };
+  if (chart) chart.destroy();
+  chart = new Chart($('cashChart'), cfg);
+}
+
+/* تحديث تلقائي عند تغيير الأرقام بعد أول تحليل */
+document.querySelectorAll('.calc-in').forEach(i => i.addEventListener('input', () => { if (analyzed) analyze(); }));
+
+/* نشر الدراسة إلى بوابة المستثمرين */
+function publish() {
+  const s = compute(); if (!s) return toast('تحقق من الأرقام المدخلة أولاً.');
+  projects.unshift({ id: Date.now(), name: s.name, nameEn: s.nameEn, sector: s.sector, capital: s.capital, opex: s.opex, revenue: s.revenue, user: true,
+    desc: 'دراسة جدوى منشورة من رائد الأعمال — فترة الاسترداد ' + (s.payback ? s.payback.toFixed(1) + ' شهراً' : 'غير متاحة') + '.' });
+  toast('تم نشر دراستك للمستثمرين بنجاح ✓');
+  setTimeout(() => go('investors'), 900);
+}
+
+/* =====================================================================
+   بوابة المستثمرين
+   ===================================================================== */
+function renderProjects() {
+  const sectors = ['الكل', ...new Set(projects.map(p => p.sector))];
+  if (!sectors.includes(activeFilter)) activeFilter = 'الكل';
+  $('chips').innerHTML = sectors.map(s => `<button class="chip ${s === activeFilter ? 'active' : ''}" onclick="setFilter('${s}')">${s}</button>`).join('');
+
+  const list = projects.filter(p => activeFilter === 'الكل' || p.sector === activeFilter);
+  $('grid').innerHTML = list.map(p => {
+    const monthly = p.revenue - p.opex, roi = monthly * 12 / p.capital * 100, pb = monthly > 0 ? p.capital / monthly : null;
+    return `<article class="card p-5 flex flex-col">
+      <div class="flex items-center justify-between gap-2">
+        <span class="text-xs font-bold px-2 py-1 rounded-full bg-powder text-cobalt">${esc(p.sector)}</span>
+        ${p.user ? '<span class="text-xs font-bold px-2 py-1 rounded-full bg-navy text-white">مشروعك</span>' : ''}
+      </div>
+      <h3 class="font-black text-lg mt-3">${esc(p.name)}</h3>
+      ${p.nameEn ? `<p dir="ltr" class="text-sm text-slate-500 text-right">${esc(p.nameEn)}</p>` : ''}
+      <p class="text-sm text-slate-600 mt-1 leading-relaxed flex-1">${esc(p.desc)}</p>
+      <dl class="grid grid-cols-3 gap-2 mt-4 text-center">
+        <div class="bg-ice rounded-lg p-2"><dt class="text-[11px] text-slate-500">رأس المال</dt><dd class="font-bold text-sm">${money(p.capital)}</dd></div>
+        <div class="bg-ice rounded-lg p-2"><dt class="text-[11px] text-slate-500">العائد</dt><dd class="font-bold text-sm text-cobalt">${roi.toFixed(0)}%</dd></div>
+        <div class="bg-ice rounded-lg p-2"><dt class="text-[11px] text-slate-500">الاسترداد</dt><dd class="font-bold text-sm">${pb ? pb.toFixed(0) + ' شهراً' : '—'}</dd></div>
+      </dl>
+      <button class="btn btn-primary mt-4 w-full" onclick="openModal(${p.id})">طلب تواصل / استثمار</button>
+      ${p.user ? `<button class="btn mt-2 w-full border border-red-200 text-red-600 hover:bg-red-50" onclick="deleteProject(${p.id})">حذف المشروع</button>` : ''}
+    </article>`;
+  }).join('') || '<p class="text-slate-500">لا توجد مشاريع في هذا القطاع بعد.</p>';
+}
+function setFilter(s) { activeFilter = s; renderProjects(); }
+
+/* حذف مشروع نشره المستخدم (المشاريع الافتراضية محمية) */
+function deleteProject(id) {
+  const i = projects.findIndex(p => p.id === id && p.user);
+  if (i === -1) return;
+  if (!confirm('هل تريد حذف «' + projects[i].name + '» من بوابة المستثمرين؟')) return;
+  projects.splice(i, 1);
+  renderProjects();
+  toast('تم حذف المشروع من بوابة المستثمرين.');
+}
+
+/* =====================================================================
+   نافذة الطلب
+   ===================================================================== */
+function openModal(id) {
+  modalProject = projects.find(p => p.id === id);
+  $('modal-project').textContent = 'المشروع: ' + modalProject.name + (modalProject.nameEn ? ' — ' + modalProject.nameEn : '');
+  $('modal-form').classList.remove('hidden');
+  $('modal-done').classList.add('hidden');
+  $('modal').classList.remove('hidden');
+  $('m-name').focus();
+}
+function closeModal() { $('modal').classList.add('hidden'); document.querySelector('#modal form').reset(); }
+function sendRequest(e) {
+  e.preventDefault();
+  $('done-text').textContent = 'شكراً ' + $('m-name').value.trim() + '، أُرسل طلب الشراكة بمبلغ ' + money($('m-amount').value) + ' إلى صاحب «' + modalProject.name + '». سيتواصل معك قريباً.';
+  $('modal-form').classList.add('hidden');
+  $('modal-done').classList.remove('hidden');
+  icons();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* =====================================================================
+   التشغيل الأولي
+   ===================================================================== */
+$('f-sector').innerHTML = SECTORS.map(s => `<option>${s}</option>`).join('');
+go('landing');
+</script>
+</body>
+</html>
